@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Marry Me?</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fbd3e9, #bb377d);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(255,255,255,0.35), transparent 65%);
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    color: rgba(255,255,255,0.85);
+    animation: floatUp 9s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(110vh) scale(0.6); }
+    to { transform: translateY(-10vh) scale(1.3); }
+}
+
+/* Glass card */
+.card {
+    position: relative;
+    z-index: 2;
+    background: rgba(189,39,52,0.22);
+    backdrop-filter: blur(20px);
+    border-radius: 35px;
+    padding: 55px 75px;
+    text-align: center;
+    box-shadow: 0 35px 90px rgba(0,0,0,0.3);
+    animation: reveal 1.6s ease;
+    max-width: 90%;
+}
+
+@keyframes reveal {
+    from { opacity: 0; transform: translateY(40px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 46px;
+    color: white;
+}
+
+.subtitle {
+    color: #ffe6f0;
+    font-size: 18px;
+    margin: 15px 0 35px;
+}
+
+/* Buttons */
+.buttons {
+    position: relative;
+    height: 80px;
+}
+
+button {
+    padding: 15px 42px;
+    font-size: 18px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#yesBtn {
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    color: white;
+    box-shadow: 0 12px 30px rgba(255,120,160,0.6);
+}
+
+#yesBtn:hover {
+    transform: scale(1.12);
+}
+
+#noBtn {
+    background: rgba(255,255,255,0.9);
+    color: #bb377d;
+    position: absolute;
+    left: 160px;
+}
+
+/* YES SCREEN */
+.yes-screen {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.yes-screen h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+}
+
+.yes-screen p {
+    font-size: 22px;
+    margin-top: 15px;
+}
+
+/* Ring sparkle */
+.ring {
+    font-size: 60px;
+    animation: sparkle 1.5s infinite alternate;
+}
+
+@keyframes sparkle {
+    from { transform: scale(1); }
+    to { transform: scale(1.2); }
+}
+
+/* Fireworks */
+.firework {
+    position: absolute;
+    font-size: 26px;
+    animation: explode 2s ease-out forwards;
+}
+
+@keyframes explode {
+    from { transform: scale(0); opacity: 1; }
+    to { transform: scale(2); opacity: 0; }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .card {
+        padding: 35px 22px;
+        border-radius: 25px;
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 14px 30px;
+    }
+
+    .buttons {
+        height: 100px;
+    }
+
+    #noBtn {
+        left: 60px;
+    }
+
+    .yes-screen h1 {
+        font-size: 38px;
+    }
+
+    .yes-screen p {
+        font-size: 18px;
+    }
+
+    .yes-screen img {
+        width: 170px !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_3bfa6c6d94.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Play music on first interaction
+document.addEventListener("click", () => {
+    document.getElementById("bgMusic").play();
+}, { once: true });
+
+// Floating hearts
+for (let i = 0; i < 30; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = Math.random() * 22 + 14 + "px";
+    h.style.animationDelay = Math.random() * 6 + "s";
+    document.body.appendChild(h);
+}
+</script>
+
+<div class="card">
+    <h1>Will you marry me, <span id="herName">My Love</span>? 💍</h1>
+    <div class="subtitle">
+        I choose you — today, tomorrow, forever ❤️
+    </div>
+
+    <div class="buttons">
+        <button id="yesBtn" onclick="sayYes()">YES 💖</button>
+        <button id="noBtn">NO 🙈</button>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+function moveNo() {
+    const margin = 15;
+
+    const btnRect = noBtn.getBoundingClientRect();
+    const maxX = window.innerWidth - btnRect.width - margin;
+    const maxY = window.innerHeight - btnRect.height - margin;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.position = "fixed"; // IMPORTANT
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    // Naughty wiggle 😈
+    noBtn.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+    setTimeout(() => noBtn.style.transform = "rotate(0deg)", 120);
+}
+
+// YES
+function sayYes() {
+    document.body.innerHTML = `
+        <div class="yes-screen">
+            <div class="ring">💍✨</div>
+            <h1 style="margin: -10px;">She said YES ❤️</h1>
+            <p>Our forever begins now</p>
+            <img src="img.jpg"
+                 style="width:160px; border-radius:20px;margin-top:0px; box-shadow:0 15px 40px rgba(0,0,0,0.4);">
+            <p style="margin-top:20px;font-size:18px;">
+                With love,<br><strong>Your Future Husband 💖</strong>
+            </p>
+        </div>
+    `;
+
+    for (let i = 0; i < 20; i++) {
+        const fw = document.createElement("div");
+        fw.className = "firework";
+        fw.innerHTML = "🎆";
+        fw.style.left = Math.random() * 100 + "vw";
+        fw.style.top = Math.random() * 100 + "vh";
+        document.body.appendChild(fw);
+    }
+}
+</script>
+
+</body>
+</html>
